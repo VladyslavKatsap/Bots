@@ -4,8 +4,8 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.utils.markdown import hlink, link
 from dataclasses import dataclass
 import os
-
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.dispatcher.filters import Text
 
 
 @dataclass(frozen=True)
@@ -78,7 +78,10 @@ code_to_smile = {
 @dp.message_handler(commands="start")
 async def cmd_start(message: types.Message):
     user_name = message.from_user.first_name
-    await message.answer(f"{msg.test.format(name=user_name)}{code_to_smile[1]}\nНапишіть номер групи")
+    await message.answer(f"{msg.test.format(name=user_name)}{code_to_smile[1]}")
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    buttons = ["Розклад", "Який зараз тиждень?"]
+    keyboard.add(*buttons)
 
 
 @dp.message_handler(commands="help")
@@ -87,11 +90,17 @@ async def any_text_message2(message: types.Message):
         '\n[Написати розробнику](https://t.me/VladyslaV_KP)',
         parse_mode='Markdown')
 
-@dp.message_handler(commands="help for Ukraine")
+
+@dp.message_handler(commands="support")
 async def any_text_message2(message: types.Message):
     await message.answer(
         '\n[Допомогти Україні](https://bank.gov.ua/ua/about/support-the-armed-forces)',
         parse_mode='Markdown')
+
+
+#@dp.message_handler(Text(equals="Розклад"))
+#async def with_p(message: types.Message):
+
 
 
 list_hi = ['привіт', 'здоров', 'хелоу', 'салют', 'добрий день']
@@ -112,6 +121,9 @@ async def any_text_message1(message: types.Message):
         await message.reply("Такої групи в коледжі нема" + code_to_smile[2])
     else:
         await message.answer("Навіщо таке писати?" + code_to_smile[4])
+
+
+lst = ['Який зараз тиждень?', 'Дізнатися']
 
 
 # dp.register_message_handler(cmd_start, commands="start")
