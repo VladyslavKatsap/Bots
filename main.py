@@ -1,6 +1,7 @@
 import asyncio
 import logging
 from aiogram import Bot, Dispatcher, executor, types
+from aiogram.utils.markdown import hlink, link
 from dataclasses import dataclass
 
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
@@ -18,8 +19,9 @@ dp = Dispatcher(bot)
 logging.basicConfig(level=logging.INFO)
 
 code_to_group = {
+    '301': "301.txt",
     '302': "302.txt",
-    '301': "301.txt"
+    '303': "303.txt"
 }
 
 code_to_smile = {
@@ -39,7 +41,9 @@ async def any_text_message1(message: types.Message):
     if k1 in code_to_group:
         with open(code_to_group[k1], "r", encoding="utf-8") as f:
             lines = f.read()
-        await message.answer(lines)
+        await message.answer(
+            lines + '\n[Розклад на сайті](https://sites.google.com/chnu.edu.ua/natural-department-college/розклад?authuser=1)',
+            parse_mode='Markdown')
     else:
         await message.reply("В розробці...")
 
