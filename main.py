@@ -70,7 +70,8 @@ code_to_group = {
 code_to_smile = {
     1: "Слава Україні \U0001f1fa\U0001f1e6",
     2: "\U0001f602",
-    3: "\U0001f609"
+    3: "\U0001f609",
+    4: "\U0001f914"
 }
 
 
@@ -94,8 +95,10 @@ async def any_text_message1(message: types.Message):
             parse_mode='Markdown')
     elif k1.lower() in list_hi:
         await message.reply("Привіт" + code_to_smile[3])
-    else:
+    elif k1.isdigit() == True and k1 not in code_to_group:
         await message.reply("Такої групи в коледжі нема" + code_to_smile[2])
+    else:
+        await message.answer("Навіщо таке писати?" + code_to_smile[4])
 
 
 # dp.register_message_handler(cmd_start, commands="start")
