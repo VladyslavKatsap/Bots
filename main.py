@@ -81,6 +81,19 @@ async def cmd_start(message: types.Message):
     await message.answer(f"{msg.test.format(name=user_name)}{code_to_smile[1]}\nНапишіть номер групи")
 
 
+@dp.message_handler(commands="help")
+async def any_text_message2(message: types.Message):
+    await message.answer(
+        '\n[Написати розробнику](https://t.me/VladyslaV_KP)',
+        parse_mode='Markdown')
+
+@dp.message_handler(commands="help for Ukraine")
+async def any_text_message2(message: types.Message):
+    await message.answer(
+        '\n[Допомогти Україні](https://bank.gov.ua/ua/about/support-the-armed-forces)',
+        parse_mode='Markdown')
+
+
 list_hi = ['привіт', 'здоров', 'хелоу', 'салют', 'добрий день']
 
 
