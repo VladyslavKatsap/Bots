@@ -13,12 +13,13 @@ class Messages:
 
 msg = Messages()
 
-bot = Bot(token="No")
+bot = Bot(token="5353285649:AAGrdmdj0HR7Yi0wNxmjtPfBghf9yyM1xw0")
 dp = Dispatcher(bot)
 logging.basicConfig(level=logging.INFO)
 
 code_to_group = {
-    "302": "302.txt"
+    '302': "302.txt",
+    '301': "301.txt"
 }
 
 code_to_smile = {
@@ -35,16 +36,11 @@ async def cmd_start(message: types.Message):
 @dp.message_handler()
 async def any_text_message1(message: types.Message):
     k1 = message.text
-    if k1 == '302':
-        await message.answer("Вивести ввесь розклад?")
-        k2 = message.text
-        if k2 == 'Так' or 'так' or 'Да' or 'да' or 'Yes' or 'yes':
-            with open("302.txt", "r", encoding="utf-8") as f:
-                lines = f.read()
-            await message.answer(lines)
-        elif k2 == 'Ні':
-            await message.answer("Окремого поки нема")
-    elif k1 != '302':
+    if k1 in code_to_group:
+        with open(code_to_group[k1], "r", encoding="utf-8") as f:
+            lines = f.read()
+        await message.answer(lines)
+    else:
         await message.reply("Поки немає")
 
 
