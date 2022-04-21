@@ -41,7 +41,7 @@ async def any_text_message1(message: types.Message):
             lines = f.read()
         await message.answer(lines)
     else:
-        await message.reply("Поки немає")
+        await message.reply("В розробці...")
 
 
 # dp.register_message_handler(cmd_start, commands="start")
