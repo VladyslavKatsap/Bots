@@ -3,6 +3,7 @@ import logging
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.utils.markdown import hlink, link
 from dataclasses import dataclass
+import os
 
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -30,7 +31,7 @@ code_to_group = {
     '114': r"C:\Users\Vladyslav\Documents\GitHub\Bots\Groups\114.txt",
     '116': r"C:\Users\Vladyslav\Documents\GitHub\Bots\Groups\116.txt",
     '117': r"C:\Users\Vladyslav\Documents\GitHub\Bots\Groups\117.txt",
-    #----------------------------------------------------------------
+    # ----------------------------------------------------------------
     '201': r"C:\Users\Vladyslav\Documents\GitHub\Bots\Groups\201.txt",
     '202': r"C:\Users\Vladyslav\Documents\GitHub\Bots\Groups\202.txt",
     '203': r"C:\Users\Vladyslav\Documents\GitHub\Bots\Groups\203.txt",
@@ -43,7 +44,7 @@ code_to_group = {
     '216': r"C:\Users\Vladyslav\Documents\GitHub\Bots\Groups\216.txt",
     '217': r"C:\Users\Vladyslav\Documents\GitHub\Bots\Groups\217.txt",
     '227': r"C:\Users\Vladyslav\Documents\GitHub\Bots\Groups\227.txt",
-    #----------------------------------------------------------------
+    # ----------------------------------------------------------------
     '301': r"C:\Users\Vladyslav\Documents\GitHub\Bots\Groups\301.txt",
     '302': r"C:\Users\Vladyslav\Documents\GitHub\Bots\Groups\302.txt",
     '303': r"C:\Users\Vladyslav\Documents\GitHub\Bots\Groups\303.txt",
@@ -67,7 +68,9 @@ code_to_group = {
 }
 
 code_to_smile = {
-    1: "Слава Україні \U0001f1fa\U0001f1e6"
+    1: "Слава Україні \U0001f1fa\U0001f1e6",
+    2: "\U0001f602",
+    3: "\U0001f609"
 }
 
 
@@ -77,6 +80,9 @@ async def cmd_start(message: types.Message):
     await message.answer(f"{msg.test.format(name=user_name)}{code_to_smile[1]}\nНапишіть номер групи")
 
 
+list_hi = ['привіт', 'здоров', 'хелоу', 'салют', 'добрий день']
+
+
 @dp.message_handler()
 async def any_text_message1(message: types.Message):
     k1 = message.text
@@ -84,10 +90,12 @@ async def any_text_message1(message: types.Message):
         with open(code_to_group[k1], "r", encoding="utf-8") as f:
             lines = f.read()
         await message.answer(
-            'Розклад для '+k1+' групи\n'+lines + '\n[Розклад на сайті](https://sites.google.com/chnu.edu.ua/natural-department-college/розклад?authuser=1)',
+            'Розклад для ' + k1 + ' групи\n' + lines + '\n[Розклад на сайті](https://sites.google.com/chnu.edu.ua/natural-department-college/розклад?authuser=1)',
             parse_mode='Markdown')
-    elif:
-        await message.reply("В розробці...")
+    elif k1.lower() in list_hi:
+        await message.reply("Привіт" + code_to_smile[3])
+    else:
+        await message.reply("Такої групи в коледжі нема" + code_to_smile[2])
 
 
 # dp.register_message_handler(cmd_start, commands="start")
