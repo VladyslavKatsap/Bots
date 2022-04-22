@@ -4,8 +4,8 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.utils.markdown import hlink, link
 from dataclasses import dataclass
 import os
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.dispatcher.filters import Text
+import btns as kb
 
 
 @dataclass(frozen=True)
@@ -15,7 +15,7 @@ class Messages:
 
 msg = Messages()
 
-bot = Bot(token="ахах")
+bot = Bot(token="5353285649:AAGrdmdj0HR7Yi0wNxmjtPfBghf9yyM1xw0")
 dp = Dispatcher(bot)
 logging.basicConfig(level=logging.INFO)
 
@@ -71,17 +71,15 @@ code_to_smile = {
     1: "Слава Україні \U0001f1fa\U0001f1e6",
     2: "\U0001f602",
     3: "\U0001f609",
-    4: "\U0001f914"
+    4: "\U0001f914",
+    5: "\U0001f447"
 }
 
 
 @dp.message_handler(commands="start")
 async def cmd_start(message: types.Message):
     user_name = message.from_user.first_name
-    await message.answer(f"{msg.test.format(name=user_name)}{code_to_smile[1]}")
-    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    buttons = ["Розклад", "Який зараз тиждень?"]
-    keyboard.add(*buttons)
+    await message.reply(f"{msg.test.format(name=user_name)}{code_to_smile[1]}", reply_markup=kb.greet_kb1)
 
 
 @dp.message_handler(commands="help")
@@ -98,39 +96,29 @@ async def any_text_message2(message: types.Message):
         parse_mode='Markdown')
 
 
-#@dp.message_handler(Text(equals="Розклад"))
-#async def with_p(message: types.Message):
-
-
-
 list_hi = ['привіт', 'здоров', 'хелоу', 'салют', 'добрий день']
+list_txt = ['Розклад']
 
 
-@dp.message_handler()
-async def any_text_message1(message: types.Message):
-    k1 = message.text
-    if k1 in code_to_group:
-        with open(code_to_group[k1], "r", encoding="utf-8") as f:
-            lines = f.read()
-        await message.answer(
-            'Розклад для ' + k1 + ' групи\n' + lines + '\n[Розклад на сайті](https://sites.google.com/chnu.edu.ua/natural-department-college/розклад?authuser=1)',
-            parse_mode='Markdown')
-    elif k1.lower() in list_hi:
-        await message.reply("Привіт" + code_to_smile[3])
-    elif k1.isdigit() == True and k1 not in code_to_group:
-        await message.reply("Такої групи в коледжі нема" + code_to_smile[2])
-    else:
-        await message.answer("Навіщо таке писати?" + code_to_smile[4])
+@dp.message_handler(Text(equals="Розклад"))
+async def with_puree(message: types.Message):
+    await message.reply("Ок, введіть групу" + code_to_smile[5])
 
-
-lst = ['Який зараз тиждень?', 'Дізнатися']
-
-
-# dp.register_message_handler(cmd_start, commands="start")
-@dp.message_handler(commands="block")
-async def cmd_block(message: types.Message):
-    await asyncio.sleep(5.0)
-    await message.reply("Ви заблоковані")
+    @dp.message_handler()
+    async def any_text_message1(message: types.Message):
+        k1 = message.text
+        if k1 in code_to_group:
+            with open(code_to_group[k1], "r", encoding="utf-8") as f:
+                lines = f.read()
+            await message.answer(
+                'Розклад для ' + k1 + ' групи\n' + lines + '\n[Розклад на сайті](https://sites.google.com/chnu.edu.ua/natural-department-college/розклад?authuser=1)',
+                parse_mode='Markdown')
+        elif k1.lower() in list_hi:
+            await message.reply("Привіт" + code_to_smile[3])
+        elif k1.isdigit() == True and k1 not in code_to_group:
+            await message.reply("Такої групи в коледжі нема" + code_to_smile[2])
+        elif k1 not in list_txt:
+            await message.answer("Навіщо таке писати?" + code_to_smile[4])
 
 
 if __name__ == "__main__":
