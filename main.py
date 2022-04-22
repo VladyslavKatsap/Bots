@@ -6,6 +6,7 @@ from dataclasses import dataclass
 import os
 from aiogram.dispatcher.filters import Text
 import btns as kb
+import datetime
 
 
 @dataclass(frozen=True)
@@ -68,7 +69,7 @@ code_to_group = {
 }
 
 code_to_smile = {
-    1: "Слава Україні \U0001f1fa\U0001f1e6",
+    1: "\U0001f1fa\U0001f1e6",
     2: "\U0001f602",
     3: "\U0001f609",
     4: "\U0001f914",
@@ -79,8 +80,10 @@ code_to_smile = {
 @dp.message_handler(commands="start")
 async def cmd_start(message: types.Message):
     user_name = message.from_user.first_name
-    await message.reply(f"{msg.test.format(name=user_name)}{code_to_smile[1]}", reply_markup=kb.greet_kb1)
-
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    buttons = ['Розклад', 'Дізнатися який зараз тиждень']
+    keyboard.add(*buttons)
+    await message.reply(f"{msg.test.format(name=user_name)}привіт{code_to_smile[1]}", reply_markup=keyboard)
 
 @dp.message_handler(commands="help")
 async def any_text_message2(message: types.Message):
@@ -99,9 +102,16 @@ async def any_text_message2(message: types.Message):
 list_hi = ['привіт', 'здоров', 'хелоу', 'салют', 'добрий день']
 list_txt = ['Розклад']
 
+@dp.message_handler(Text(equals="Дізнатися який зараз тиждень"))
+async def with_p(message: types.Message):
+    week_number = datetime.datetime.today().isocalendar()[1]
+    if week_number%2 != 0:
+        await message.reply("Зараз 1-й тиждень")
+    else:
+        await message.reply("Зараз 2-й тиждень")
 
 @dp.message_handler(Text(equals="Розклад"))
-async def with_puree(message: types.Message):
+async def with_p(message: types.Message):
     await message.reply("Ок, введіть групу" + code_to_smile[5])
 
     @dp.message_handler()
