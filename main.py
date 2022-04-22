@@ -16,7 +16,7 @@ class Messages:
 
 msg = Messages()
 
-bot = Bot(token="5353285649:AAGrdmdj0HR7Yi0wNxmjtPfBghf9yyM1xw0")
+bot = Bot(token="")
 dp = Dispatcher(bot)
 logging.basicConfig(level=logging.INFO)
 
